@@ -1,0 +1,15 @@
+package co.edu.uptc.crudHotel.models;
+
+import java.util.Date;
+
+import co.edu.uptc.crudHotel.enums.CarTypeEnum;
+
+public class Driver extends Employee{
+	protected CarTypeEnum carType;
+
+	public Driver(String name, Date birthDate, String phoneNumber, String email, String idNumber, Date hireDate,
+			CarTypeEnum carType) {
+		super(name, birthDate, phoneNumber, email, idNumber, hireDate);
+		this.carType = carType;
+	}
+}
