@@ -1,0 +1,148 @@
+package co.edu.uptc.crudHotel.Logic;
+
+import java.util.List;
+
+import javax.swing.JOptionPane;
+
+import co.edu.uptc.crudHotel.enums.BedTypeEconomicEnum;
+import co.edu.uptc.crudHotel.enums.BedTypeLuxEnum;
+import co.edu.uptc.crudHotel.models.EconomicRoom;
+import co.edu.uptc.crudHotel.models.LuxuriosRoom;
+
+public class CrudLuxuriousRoom extends AbstractCrud<LuxuriosRoom> {
+	private List<LuxuriosRoom> listLuxRooms;
+
+	public CrudLuxuriousRoom(String nameEntity, List<LuxuriosRoom> listLuxRooms) {
+		super(nameEntity);
+		this.listLuxRooms = listLuxRooms;
+	}
+	
+	@Override
+	protected LuxuriosRoom createInstance() {
+
+		String idRoomString = JOptionPane.showInputDialog(
+	            null,
+	            "Digite el número de identificación de la habitacion : ",
+	            "Agregar registro de habitacion",
+	            JOptionPane.INFORMATION_MESSAGE );
+
+		int idRoom = Integer.parseInt(idRoomString);
+
+		String numberBedsString = JOptionPane.showInputDialog(
+	            null,
+	            "Digite el numero de camas de la habitacion: ",
+	            "Agregar registro de habitacion",
+	            JOptionPane.INFORMATION_MESSAGE );
+
+		int numberBeds = Integer.parseInt(numberBedsString);
+
+		String pricePerNightRoomString = JOptionPane.showInputDialog(
+	            null,
+	            "Digite el precio por noche de la habitacion: ",
+	            "Agregar registro de habitacion",
+	            JOptionPane.INFORMATION_MESSAGE );
+		
+		int pricePerNightRoom = Integer.parseInt(pricePerNightRoomString);
+		
+		String optionString = JOptionPane.showInputDialog(
+	            null,
+	            "Ingrese si la habitacion tiene servicio de botones" + "\n" + "1. Si" + "\n" + "2. No",
+	            "Agregar registro de habitacion",
+	            JOptionPane.INFORMATION_MESSAGE );
+		
+		int option = Integer.parseInt(optionString);
+		
+		boolean bellboyService = false;
+		
+		if (option < 1 || option > 2) {
+			JOptionPane.showMessageDialog(null, "Valor invalido, el registro no se completo");
+			return null;
+		}if (option == 1) {
+			bellboyService = true;
+		}if (option == 2) {
+			bellboyService = false;
+		}
+
+		BedTypeLuxEnum bedType = null;
+		
+		String optionBedTypeString = JOptionPane.showInputDialog(
+	            null,
+	            "Ingrese el tipo de cama de la habitacion" + "\n" + "1. Simple" + "\n" + "2. Double",
+	            "Agregar registro de habitacion",
+	            JOptionPane.INFORMATION_MESSAGE );
+		
+		int optionBedType = Integer.parseInt(optionString);
+		
+		if (optionBedType < 1 || optionBedType > 2) {
+			JOptionPane.showMessageDialog(null, "Valor invalido, el registro no se completo");
+			return null;
+		}if (optionBedType == 1) {
+			bedType = BedTypeLuxEnum.KING;
+		}if (optionBedType == 2) {
+			bedType = BedTypeLuxEnum.QUEEN;
+		}
+		
+		String optionDriverString = JOptionPane.showInputDialog(
+	            null,
+	            "Ingrese si la habitacion tiene servicio de chofer" + "\n" + "1. Si" + "\n" + "2. No",
+	            "Agregar registro de habitacion",
+	            JOptionPane.INFORMATION_MESSAGE );
+		
+		int optionDriver = Integer.parseInt(optionDriverString);
+		
+		boolean driverService = false;
+		
+		if (optionDriver < 1 || optionDriver > 2) {
+			JOptionPane.showMessageDialog(null, "Valor invalido, el registro no se completo");
+			return null;
+		}if (optionDriver == 1) {
+			driverService = true;
+		}if (optionDriver == 2) {
+			driverService = false;
+		}
+		
+		return new LuxuriosRoom(idRoom, numberBeds, false, pricePerNightRoom, bellboyService, driverService, bedType);
+	}
+
+	@Override
+	protected boolean newRecord(LuxuriosRoom record) {
+		if(this.findRecordById(record.getId()) == null) {
+			this.listLuxRooms.add(record);
+			return true;
+		}
+		return false;
+	}
+
+	@Override
+	protected LuxuriosRoom findRecordById(int id) {
+		return this.listLuxRooms.stream().filter(s -> s.getId() == id)
+				.findAny().orElse(null);		
+	}
+
+	@Override
+	protected boolean updateRecord(LuxuriosRoom t) {
+		for(LuxuriosRoom room : this.listLuxRooms) {
+			if(room.getId() == t.getId()) {
+				if(t.getId() != 0) {
+					room.setId(t.getId());
+				}
+				if(t.getNumberBeds() != 0) {
+					room.setNumberBeds(t.getNumberBeds());
+				}
+				if(t.getPricePerNight() != 0) {
+					room.setPricePerNight(t.getPricePerNight());
+				}
+				return true;
+			}
+		}
+		return false;
+
+	}
+
+	@Override
+	protected boolean deleteRecord(int id) {
+		return this.listLuxRooms.removeIf(room -> room.getId() == id);
+	}
+
+
+}

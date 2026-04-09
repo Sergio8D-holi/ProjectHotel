@@ -9,7 +9,11 @@ public class Hotel {
 	private ArrayList<Employee> employees;
 	private ArrayList<Reservation> reservations;
 	private String adress;
-	
+	private String city;
+	private String phoneNumber;
+	private String email;
+
+
 	public Hotel(String name, ArrayList<Room> rooms, ArrayList<Customer> customers, ArrayList<Employee> employees,
 			ArrayList<Reservation> reservations, String adress) {
 		super();

@@ -9,15 +9,15 @@ public class Person extends BaseClass{
 	protected Date birthDate;
 	protected String phoneNumber;
 	protected String email;
-	protected String idNumber;
-	
-	public Person(String name, Date birthDate, String phoneNumber, String email, String idNumber) {
-		super();
+	protected String dni;
+
+	public Person(int id, String name, Date birthDate, String phoneNumber, String email, String dni) {
+		super(id);
 		this.name = name;
 		this.birthDate = birthDate;
 		this.phoneNumber = phoneNumber;
 		this.email = email;
-		this.idNumber = idNumber;
+		this.dni = dni;
 	}
 
 	public String getName() {
@@ -26,14 +26,6 @@ public class Person extends BaseClass{
 
 	public void setName(String name) {
 		this.name = name;
-	}
-
-	public Date getBirthDate() {
-		return birthDate;
-	}
-
-	public void setBirthDate(Date birthDate) {
-		this.birthDate = birthDate;
 	}
 
 	public String getPhoneNumber() {
@@ -52,13 +44,4 @@ public class Person extends BaseClass{
 		this.email = email;
 	}
 
-	public String getIdNumber() {
-		return idNumber;
-	}
-
-	public void setIdNumber(String idNumber) {
-		this.idNumber = idNumber;
-	}
-	
-	
 }

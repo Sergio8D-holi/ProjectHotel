@@ -1,0 +1,60 @@
+package co.edu.uptc.crudHotel.Logic;
+
+import java.util.List;
+
+import javax.swing.JOptionPane;
+
+import com.toedter.calendar.JDateChooser;
+
+import co.edu.uptc.crudHotel.models.Room;
+
+
+public class CrudRoom extends AbstractCrud<Room>{
+	private List<Room> listRooms;
+
+	public CrudRoom(String nameEntity, List<Room> listRooms) {
+		super(nameEntity);
+		this.listRooms = listRooms;
+	}
+
+	@Override
+	protected Room createInstance() {
+		
+		String idRoomString = JOptionPane.showInputDialog(
+	            null,
+	            "Digite el número de identificación de la habitacion : ",
+	            "Agregar registro de habitacion",
+	            JOptionPane.INFORMATION_MESSAGE );
+		
+		int idRoom = Integer.parseInt(idRoomString);
+
+		String numberBedsString = JOptionPane.showInputDialog(
+	            null,
+	            "Digite el numero de camas de la habitacion: ",
+	            "Agregar registro de habitacion",
+	            JOptionPane.INFORMATION_MESSAGE );
+		
+		int numberBeds = Integer.parseInt(numberBedsString);
+		
+		
+
+		/* Fechas */
+		JDateChooser dateChooser = new JDateChooser();
+		int option = JOptionPane.showConfirmDialog(
+			    null,
+			    dateChooser,
+			    "Seleccione una fecha",
+			    JOptionPane.OK_CANCEL_OPTION
+			);
+
+		Date birthdate = null;
+		if (option == JOptionPane.OK_OPTION) {
+		    birthdate = dateChooser.getDate();
+		    System.out.println(birthdate);
+		}
+
+		return new Room(idRoom, numberBeds, false, option, null, option);
+	}
+
+
+}

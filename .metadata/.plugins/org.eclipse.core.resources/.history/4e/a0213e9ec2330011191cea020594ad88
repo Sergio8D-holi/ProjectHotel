@@ -1,0 +1,15 @@
+package co.edu.uptc.crudHotel.models;
+
+import java.util.Date;
+
+public class Employee extends Person{
+	protected Date hireDate;
+
+	public Employee(int id, String name, Date birthDate, String phoneNumber, String email, String dni, Date hireDate) {
+		super(id, name, birthDate, phoneNumber, email, dni);
+		this.hireDate = hireDate;
+	}
+
+
+
+}

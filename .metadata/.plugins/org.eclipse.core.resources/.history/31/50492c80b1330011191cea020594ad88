@@ -1,0 +1,14 @@
+package co.edu.uptc.crudHotel.models;
+
+import java.util.Date;
+
+public class Bellboy extends Employee{
+	protected boolean luggageRack;
+
+	public Bellboy(int id, String name, Date birthDate, String phoneNumber, String email, String dni, Date hireDate,
+			boolean luggageRack) {
+		super(id, name, birthDate, phoneNumber, email, dni, hireDate);
+		this.luggageRack = luggageRack;
+	}
+
+}

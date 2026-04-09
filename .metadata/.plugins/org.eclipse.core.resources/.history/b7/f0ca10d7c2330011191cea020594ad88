@@ -1,0 +1,51 @@
+package co.edu.uptc.crudHotel.models;
+
+import co.edu.uptc.crudHotel.Logic.BaseClass;
+
+public class Room extends BaseClass{
+	protected int numberBeds;
+	protected boolean isAvailable;
+	protected float pricePerNight;
+	protected boolean bellboyService;
+
+	public Room(int id) {
+		super(id);
+	}
+
+	public Room(int id, int numberBeds, boolean isAvailable, float pricePerNight, boolean bellboyService) {
+		super(id);
+		this.numberBeds = numberBeds;
+		this.isAvailable = isAvailable;
+		this.pricePerNight = pricePerNight;
+		this.bellboyService = bellboyService;
+	}
+
+	public boolean isBellboyService() {
+		return bellboyService;
+	}
+
+	public void setBellboyService(boolean bellboyService) {
+		this.bellboyService = bellboyService;
+	}
+
+	public int getNumberBeds() {
+		return numberBeds;
+	}
+
+	public boolean isAvailable() {
+		return isAvailable;
+	}
+
+	public void setNumberBeds(int numberBeds) {
+		this.numberBeds = numberBeds;
+	}
+
+	public void setAvailable(boolean isAvailable) {
+		this.isAvailable = isAvailable;
+	}
+
+	public float getPricePerNight() {
+		return pricePerNight;
+	}
+
+}

@@ -1,14 +1,19 @@
 package co.edu.uptc.crudHotel.Logic;
 
 public class BaseClass {
-	protected String number;
+	protected int id;
 
-	public String getNumber() {
-		return number;
+	public int getId() {
+		return id;
 	}
 
-	public void setNumber(String number) {
-		this.number = number;
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	public BaseClass(int id) {
+		super();
+		this.id = id;
 	}
 }
 

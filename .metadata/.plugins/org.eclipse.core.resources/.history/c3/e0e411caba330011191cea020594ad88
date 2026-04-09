@@ -1,0 +1,111 @@
+package co.edu.uptc.crudHotel.Logic;
+
+import java.util.List;
+
+import javax.swing.JOptionPane;
+
+import com.toedter.calendar.JDateChooser;
+
+import co.edu.uptc.crudHotel.enums.EmployeeTypeEnum;
+import co.edu.uptc.crudHotel.models.Room;
+
+
+public class CrudRoom extends AbstractCrud<Room>{
+	private List<Room> listRooms;
+
+	public CrudRoom(String nameEntity, List<Room> listRooms) {
+		super(nameEntity);
+		this.listRooms = listRooms;
+	}
+
+	@Override
+	protected Room createInstance() {
+
+		String idRoomString = JOptionPane.showInputDialog(
+	            null,
+	            "Digite el número de identificación de la habitacion : ",
+	            "Agregar registro de habitacion",
+	            JOptionPane.INFORMATION_MESSAGE );
+
+		int idRoom = Integer.parseInt(idRoomString);
+
+		String numberBedsString = JOptionPane.showInputDialog(
+	            null,
+	            "Digite el numero de camas de la habitacion: ",
+	            "Agregar registro de habitacion",
+	            JOptionPane.INFORMATION_MESSAGE );
+
+		int numberBeds = Integer.parseInt(numberBedsString);
+
+		String pricePerNightRoomString = JOptionPane.showInputDialog(
+	            null,
+	            "Digite el precio por noche de la habitacion: ",
+	            "Agregar registro de habitacion",
+	            JOptionPane.INFORMATION_MESSAGE );
+		
+		int pricePerNightRoom = Integer.parseInt(pricePerNightRoomString);
+		
+		String optionString = JOptionPane.showInputDialog(
+	            null,
+	            "Desea tener el servicio de botones? " + "\n" + "1. Si" + "\n" + "2. No",
+	            "Agregar registro de habitacion",
+	            JOptionPane.INFORMATION_MESSAGE );
+		
+		int option = Integer.parseInt(optionString);
+		
+		boolean bellboyService = false;
+		
+		if (option < 1 || option > 2) {
+			JOptionPane.showMessageDialog(null, "Valor invalido, el registro no se completo");
+			return null;
+		}if (option == 1) {
+			bellboyService = true;
+		}if (option == 2) {
+			bellboyService = false;
+		}
+
+		return new Room(idRoom, numberBeds, false, pricePerNightRoom, bellboyService);
+	}
+
+	@Override
+	protected boolean newRecord(Room record) {
+		if(this.findRecordById(record.getId()) == null) {
+			this.listRooms.add(record);
+			return true;
+		}
+		return false;
+	}
+
+	@Override
+	protected Room findRecordById(int id) {
+		return this.listRooms.stream().filter(s -> s.getId() == id)
+				.findAny().orElse(null);		
+	}
+
+	@Override
+	protected boolean updateRecord(Room t) {
+		for(Room room : this.listRooms) {
+			if(room.getId() == t.getId()) {
+				if(t.getId() != 0) {
+					room.setId(t.getId());
+				}
+				if(t.getNumberBeds() != 0) {
+					room.setNumberBeds(t.getNumberBeds());
+				}
+				if(t.getPricePerNight() != 0) {
+					room.setPricePerNight(t.getPricePerNight());
+				}
+				return true;
+			}
+		}
+		return false;
+
+	}
+
+	@Override
+	protected boolean deleteRecord(int id) {
+		return this.listRooms.removeIf(room -> room.getId() == id);
+	}
+
+
+}

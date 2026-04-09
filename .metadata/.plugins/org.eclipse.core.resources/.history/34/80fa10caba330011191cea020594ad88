@@ -1,0 +1,75 @@
+package co.edu.uptc.crudHotel.Logic;
+
+import java.util.List;
+
+import javax.swing.JOptionPane;
+
+import com.toedter.calendar.JDateChooser;
+
+import co.edu.uptc.crudHotel.models.Room;
+
+
+public class CrudRoom extends AbstractCrud<Room>{
+	private List<Room> listRooms;
+
+	public CrudRoom(String nameEntity, List<Room> listRooms) {
+		super(nameEntity);
+		this.listRooms = listRooms;
+	}
+
+	@Override
+	protected Room createInstance() {
+
+		String idRoomString = JOptionPane.showInputDialog(
+	            null,
+	            "Digite el número de identificación de la habitacion : ",
+	            "Agregar registro de habitacion",
+	            JOptionPane.INFORMATION_MESSAGE );
+
+		int idRoom = Integer.parseInt(idRoomString);
+
+		String numberBedsString = JOptionPane.showInputDialog(
+	            null,
+	            "Digite el numero de camas de la habitacion: ",
+	            "Agregar registro de habitacion",
+	            JOptionPane.INFORMATION_MESSAGE );
+
+		int numberBeds = Integer.parseInt(numberBedsString);
+
+		String pricePerNightRoomString = JOptionPane.showInputDialog(
+	            null,
+	            "Digite el precio por noche de la habitacion: ",
+	            "Agregar registro de habitacion",
+	            JOptionPane.INFORMATION_MESSAGE );
+		
+		int pricePerNightRoom = Integer.parseInt(pricePerNightRoomString);
+
+		return new Room(idRoom, numberBeds, false, pricePerNightRoom);
+	}
+
+	@Override
+	protected boolean newRecord(Room record) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	protected Room findRecordById(int id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	protected boolean updateRecord(Room t) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	protected boolean deleteRecord(int id) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+
+}
