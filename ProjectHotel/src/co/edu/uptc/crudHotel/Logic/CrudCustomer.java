@@ -19,6 +19,10 @@ public class CrudCustomer extends AbstractCrud<Customer>{
 		this.listCustomers = listCustomers;
 	}
 
+	public List<Customer> getListCustomers() {
+		return listCustomers;
+	}
+
 	@Override
 	protected boolean newRecord(Customer record) {
 		if(this.findRecordById(record.getId()) == null) {
@@ -118,8 +122,7 @@ public class CrudCustomer extends AbstractCrud<Customer>{
 
 	@Override
 	protected boolean deleteRecord(int id) {
-		return this.listCustomers
-				.removeIf(room -> room.getId() == id);
+		return this.listCustomers.removeIf(room -> room.getId() == id);
 	}
 	
 	

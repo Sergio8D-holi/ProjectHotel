@@ -1,0 +1,57 @@
+package co.edu.uptc.crudHotel.run;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import java.util.Date;
+import javax.swing.JOptionPane;
+
+import co.edu.uptc.crudHotel.Logic.CrudCustomer;
+import co.edu.uptc.crudHotel.Logic.CrudEconomicRoom;
+import co.edu.uptc.crudHotel.Logic.CrudEmployee;
+import co.edu.uptc.crudHotel.Logic.CrudLuxuriousRoom;
+import co.edu.uptc.crudHotel.Logic.CrudReservation;
+import co.edu.uptc.crudHotel.models.Customer;
+import co.edu.uptc.crudHotel.models.EconomicRoom;
+import co.edu.uptc.crudHotel.models.Employee;
+import co.edu.uptc.crudHotel.models.LuxuriosRoom;
+import co.edu.uptc.crudHotel.models.Reservation;
+
+public class Main {
+
+	public static void main(String[] args) {
+		List<Customer> listCustomer = new ArrayList<Customer>();
+		List<Employee> listEmployee = new ArrayList<Employee>();
+		List<Reservation> listReservation= new ArrayList<Reservation>();
+		List<EconomicRoom> listEcoRoom = new ArrayList<EconomicRoom>();
+		List<LuxuriosRoom> listLuxRoom = new ArrayList<LuxuriosRoom>();
+		
+		CrudCustomer customerRepository = new CrudCustomer("Customer", listCustomer);
+		CrudEmployee employeeRepository = new CrudEmployee("Employee", listEmployee);
+		CrudEconomicRoom ecoRoomRepository = new CrudEconomicRoom("Economic Room", listEcoRoom);
+		CrudLuxuriousRoom luxRoomRepository = new CrudLuxuriousRoom("Luxurious Room", listLuxRoom);
+		CrudReservation reservetionRepository = new CrudReservation("Reservation", listReservation, customerRepository, ecoRoomRepository, luxRoomRepository);
+		boolean flag = true;
+		while(flag) {
+			
+			int numberCrud = Integer.parseInt(JOptionPane.showInputDialog(
+		            null, 
+		            "[1] Crud de estudiantes\n[2] Crud de profesores\n[3] Salir", 
+		            "MENU PRINCIPAL", 
+		            JOptionPane.INFORMATION_MESSAGE
+		        ));
+			switch(numberCrud) {
+			case 1:
+				studentRepository.menu();
+				break;
+			case 2:
+				teacherRepository.menu();
+				break;
+			case 3:
+				flag = false;
+				break;
+			}
+
+	}
+
+}

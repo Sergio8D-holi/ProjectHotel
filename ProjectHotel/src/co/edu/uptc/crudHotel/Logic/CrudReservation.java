@@ -8,14 +8,25 @@ import javax.swing.JOptionPane;
 import com.toedter.calendar.JDateChooser;
 
 import co.edu.uptc.crudHotel.models.Customer;
+import co.edu.uptc.crudHotel.models.Room;
 import co.edu.uptc.crudHotel.models.Reservation;
+import co.edu.uptc.crudHotel.Logic.CrudEmployee;
+import co.edu.uptc.crudHotel.enums.EmployeeTypeEnum;
+import co.edu.uptc.crudHotel.Logic.CrudCustomer;
 
 public class CrudReservation extends AbstractCrud<Reservation>{
 	private List<Reservation> listReservation;
+	private CrudCustomer crudCustomer;
+	private CrudEconomicRoom crudEconomicRoom;
+	private CrudLuxuriousRoom crudLuxuriousRoom; 
 
-	public CrudReservation(String nameEntity, List<Reservation> listReservation) {
+	public CrudReservation(String nameEntity, List<Reservation> listReservation, CrudCustomer crudCustomer,
+			CrudEconomicRoom crudEconomicRoom, CrudLuxuriousRoom crudLuxuriousRoom) {
 		super(nameEntity);
 		this.listReservation = listReservation;
+		this.crudCustomer = crudCustomer;
+		this.crudEconomicRoom = crudEconomicRoom;
+		this.crudLuxuriousRoom = crudLuxuriousRoom;
 	}
 
 	@Override
@@ -54,7 +65,7 @@ public class CrudReservation extends AbstractCrud<Reservation>{
 		}
 		return false;
 	}
-
+	
 	@Override
 	protected Reservation createInstance() {
 		String idReservationString = JOptionPane.showInputDialog(
@@ -88,13 +99,91 @@ public class CrudReservation extends AbstractCrud<Reservation>{
 
 		int reservedDays = Integer.parseInt(reservedDaysString);
 		
-		return new Reservation(idReservation, null, null, arrivalDate, reservedDays);
+		// Cliente
+		String idCustomerString = JOptionPane.showInputDialog(
+		        null,
+		        "Digite el ID del cliente: ",
+		        "Agregar registro de reserva",
+		        JOptionPane.INFORMATION_MESSAGE
+		);
+
+		int idCustomer = Integer.parseInt(idCustomerString);
+
+		Customer customer = null;
+        for (Customer c : crudCustomer.getListCustomers()) {
+            if (c.getId() == idCustomer) {
+                customer = c;
+                break;
+            }
+        }
+
+		if (customer == null) {
+		    JOptionPane.showMessageDialog(null, "Cliente no encontrado.");
+		    return null;
+		}
+
+		String optionRoomTypeString = JOptionPane.showInputDialog(
+	            null,
+	            "Ingrese el tipo de habitacion" + "\n" + "1. Economica" + "\n" + "2. Lujosa",
+	            JOptionPane.INFORMATION_MESSAGE );
+		
+		int optionRoomType = Integer.parseInt(optionRoomTypeString);
+		
+		if (optionRoomType < 1 || optionRoomType > 2) {
+			JOptionPane.showMessageDialog(null, "Valor invalido, el registro no se completo");
+			return null;
+		}if (optionRoomType == 1) {
+			String idRoomString = JOptionPane.showInputDialog(
+			        null,
+			        "Digite el ID de la habitacion: ",
+			        "Agregar registro de reserva",
+			        JOptionPane.INFORMATION_MESSAGE
+			);
+
+			int idRoom = Integer.parseInt(idRoomString);
+
+			Room room = null;
+	        for (Room r : crudEconomicRoom.getListRooms()) {
+	            if (r.getId() == idRoom) {
+	                room = r;
+	                break;
+	            }
+	        }
+
+			if (room == null) {
+			    JOptionPane.showMessageDialog(null, "Cliente no encontrado.");
+			    return null;
+			}
+		}if (optionRoomType == 2) {
+		}String idRoomString = JOptionPane.showInputDialog(
+		        null,
+		        "Digite el ID de la habitacion: ",
+		        "Agregar registro de reserva",
+		        JOptionPane.INFORMATION_MESSAGE
+		);
+
+		int idRoom = Integer.parseInt(idRoomString);
+
+		Room room = null;
+        for (Room r : crudLuxuriousRoom.getListLuxRooms()) {
+            if (r.getId() == idRoom) {
+                room = r;
+                break;
+            }
+        }
+
+		if (room == null) {
+		    JOptionPane.showMessageDialog(null, "Cliente no encontrado.");
+		    return null;
+		}
+
+		
+		return new Reservation(idReservation, room, customer, arrivalDate, reservedDays);
 	}
 
 	@Override
 	protected boolean deleteRecord(int id) {
-		// TODO Auto-generated method stub
-		return false;
+		return this.listReservation.removeIf(room -> room.getId() == id);
 	}
 	
 	

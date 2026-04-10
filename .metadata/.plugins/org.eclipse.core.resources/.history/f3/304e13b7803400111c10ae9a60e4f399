@@ -1,0 +1,128 @@
+package co.edu.uptc.crudHotel.Logic;
+
+import java.util.List;
+
+import javax.swing.JOptionPane;
+
+import co.edu.uptc.crudHotel.enums.BedTypeEconomicEnum;
+import co.edu.uptc.crudHotel.models.EconomicRoom;
+
+public class CrudEconomicRoom extends AbstractCrud<EconomicRoom> {
+	public List<EconomicRoom> listRooms;
+
+	
+	public CrudEconomicRoom(String nameEntity, List<EconomicRoom> listRooms) {
+		super(nameEntity);
+		this.listRooms = listRooms;
+	}
+
+	@Override
+	protected EconomicRoom createInstance() {
+
+		String idRoomString = JOptionPane.showInputDialog(
+	            null,
+	            "Digite el número de identificación de la habitacion : ",
+	            "Agregar registro de habitacion",
+	            JOptionPane.INFORMATION_MESSAGE );
+
+		int idRoom = Integer.parseInt(idRoomString);
+
+		String numberBedsString = JOptionPane.showInputDialog(
+	            null,
+	            "Digite el numero de camas de la habitacion: ",
+	            "Agregar registro de habitacion",
+	            JOptionPane.INFORMATION_MESSAGE );
+
+		int numberBeds = Integer.parseInt(numberBedsString);
+
+		String pricePerNightRoomString = JOptionPane.showInputDialog(
+	            null,
+	            "Digite el precio por noche de la habitacion: ",
+	            "Agregar registro de habitacion",
+	            JOptionPane.INFORMATION_MESSAGE );
+		
+		int pricePerNightRoom = Integer.parseInt(pricePerNightRoomString);
+		
+		String optionString = JOptionPane.showInputDialog(
+	            null,
+	            "Ingrese si la habitacion tiene servicio de botones" + "\n" + "1. Si" + "\n" + "2. No",
+	            "Agregar registro de habitacion",
+	            JOptionPane.INFORMATION_MESSAGE );
+		
+		int option = Integer.parseInt(optionString);
+		
+		boolean bellboyService = false;
+		
+		if (option < 1 || option > 2) {
+			JOptionPane.showMessageDialog(null, "Valor invalido, el registro no se completo");
+			return null;
+		}if (option == 1) {
+			bellboyService = true;
+		}if (option == 2) {
+			bellboyService = false;
+		}
+
+		BedTypeEconomicEnum bedType = null;
+		
+		String optionBedTypeString = JOptionPane.showInputDialog(
+	            null,
+	            "Ingrese el tipo de cama de la habitacion" + "\n" + "1. Simple" + "\n" + "2. Double",
+	            "Agregar registro de habitacion",
+	            JOptionPane.INFORMATION_MESSAGE );
+		
+		int optionBedType = Integer.parseInt(optionBedTypeString);
+		
+		if (optionBedType < 1 || optionBedType > 2) {
+			JOptionPane.showMessageDialog(null, "Valor invalido, el registro no se completo");
+			return null;
+		}if (optionBedType == 1) {
+			bedType = BedTypeEconomicEnum.SIMPLE;
+		}if (optionBedType == 2) {
+			bedType = BedTypeEconomicEnum.DOUBLE;
+		}
+		
+		return new EconomicRoom(idRoom, numberBeds, false, pricePerNightRoom, bellboyService, bedType);
+	}
+
+	@Override
+	protected boolean newRecord(EconomicRoom record) {
+		if(this.findRecordById(record.getId()) == null) {
+			this.listRooms.add(record);
+			return true;
+		}
+		return false;
+	}
+
+	@Override
+	protected EconomicRoom findRecordById(int id) {
+		return this.listRooms.stream().filter(s -> s.getId() == id)
+				.findAny().orElse(null);		
+	}
+
+	@Override
+	protected boolean updateRecord(EconomicRoom t) {
+		for(EconomicRoom room : this.listRooms) {
+			if(room.getId() == t.getId()) {
+				if(t.getId() != 0) {
+					room.setId(t.getId());
+				}
+				if(t.getNumberBeds() != 0) {
+					room.setNumberBeds(t.getNumberBeds());
+				}
+				if(t.getPricePerNight() != 0) {
+					room.setPricePerNight(t.getPricePerNight());
+				}
+				return true;
+			}
+		}
+		return false;
+
+	}
+
+	@Override
+	protected boolean deleteRecord(int id) {
+		return this.listRooms.removeIf(room -> room.getId() == id);
+	}
+
+
+}

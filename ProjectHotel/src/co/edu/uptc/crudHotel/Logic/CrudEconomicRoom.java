@@ -8,12 +8,15 @@ import co.edu.uptc.crudHotel.enums.BedTypeEconomicEnum;
 import co.edu.uptc.crudHotel.models.EconomicRoom;
 
 public class CrudEconomicRoom extends AbstractCrud<EconomicRoom> {
-	private List<EconomicRoom> listRooms;
-
+	public List<EconomicRoom> listRooms;
 	
 	public CrudEconomicRoom(String nameEntity, List<EconomicRoom> listRooms) {
 		super(nameEntity);
 		this.listRooms = listRooms;
+	}
+	
+	public List<EconomicRoom> getListRooms() {
+		return listRooms;
 	}
 
 	@Override

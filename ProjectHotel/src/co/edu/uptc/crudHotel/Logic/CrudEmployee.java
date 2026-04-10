@@ -13,7 +13,11 @@ import co.edu.uptc.crudHotel.models.EconomicRoom;
 import co.edu.uptc.crudHotel.models.Employee;
 
 public class CrudEmployee extends AbstractCrud<Employee>{
-	private List<Employee> listEmployees;
+	public List<Employee> listEmployees;
+
+	public List<Employee> getListEmployees() {
+		return listEmployees;
+	}
 
 	public CrudEmployee(String nameEntity, List<Employee> listEmployees) {
 		super(nameEntity);

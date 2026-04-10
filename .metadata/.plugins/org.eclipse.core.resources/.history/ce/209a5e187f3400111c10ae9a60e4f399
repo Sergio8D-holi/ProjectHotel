@@ -1,0 +1,125 @@
+package co.edu.uptc.crudHotel.Logic;
+
+import java.util.Date;
+import java.util.List;
+
+import javax.swing.JOptionPane;
+
+import com.toedter.calendar.JDateChooser;
+
+import co.edu.uptc.crudHotel.enums.EmployeeTypeEnum;
+import co.edu.uptc.crudHotel.models.Customer;
+import co.edu.uptc.crudHotel.models.Employee;
+
+public class CrudCustomer extends AbstractCrud<Customer>{
+	private List<Customer> listCustomers;
+
+	public CrudCustomer(String nameEntity, List<Customer> listCustomers) {
+		super(nameEntity);
+		this.listCustomers = listCustomers;
+	}
+
+	@Override
+	protected boolean newRecord(Customer record) {
+		if(this.findRecordById(record.getId()) == null) {
+			this.listCustomers.add(record);
+			return true;
+		}
+		return false;
+	}
+
+	@Override
+	protected Customer findRecordById(int id) {
+		return this.listCustomers.stream().filter(s -> s.getId() == id)
+				.findAny().orElse(null);
+		}
+
+	@Override
+	protected boolean updateRecord(Customer t) {
+		for(Customer customer: this.listCustomers) {
+			if(customer.getId() == t.getId()) {
+				if(t.getId() != 0) {
+					customer.setId(t.getId());
+				}
+				if(t.getEmail() != null) {
+					customer.setEmail(t.getEmail());
+				}
+				if(t.getPhoneNumber() != null) {
+					customer.setPhoneNumber(t.getPhoneNumber());
+				}
+				if (t.getNumberRoomers() != 0) {
+					customer.setNumberRoomers(t.getNumberRoomers());
+				}
+				return true;
+			}
+		}
+		return false;
+	}
+
+	@Override
+	protected Customer createInstance() {
+		String idCustomerString = JOptionPane.showInputDialog(
+	            null,
+	            "Digite el número de identificación del cliente : ",
+	            "Agregar registro de cliente",
+	            JOptionPane.INFORMATION_MESSAGE );
+
+		int idCustomer = Integer.parseInt(idCustomerString);
+
+		String nameCustomer = JOptionPane.showInputDialog(
+	            null, 
+	            "Digite el nombre del cliente : ", 
+	            "Agregar registro de cliente", 
+	            JOptionPane.INFORMATION_MESSAGE );
+		
+		String phoneNumberCustomer = JOptionPane.showInputDialog(
+	            null, 
+	            "Digite el numero de telefono del cliente : ", 
+	            "Agregar registro de cliente", 
+	            JOptionPane.INFORMATION_MESSAGE );
+		
+		String emailCustomer = JOptionPane.showInputDialog(
+	            null, 
+	            "Digite el email del cliente : ", 
+	            "Agregar registro de cliente", 
+	            JOptionPane.INFORMATION_MESSAGE );
+	
+		String dniCustomer = JOptionPane.showInputDialog(
+	            null, 
+	            "Digite el dni del cliente : ", 
+	            "Agregar registro de cliente", 
+	            JOptionPane.INFORMATION_MESSAGE );
+		
+		/* Fechas */
+		JDateChooser dateChooserBirth = new JDateChooser();
+		int optionBirth = JOptionPane.showConfirmDialog(
+			    null,
+			    dateChooserBirth,
+			    "Seleccione una fecha de nacimiento",
+			    JOptionPane.OK_CANCEL_OPTION
+			);
+		
+		Date birthdate = null;
+		if (optionBirth == JOptionPane.OK_OPTION) {
+		    birthdate = dateChooserBirth.getDate();
+		    System.out.println(birthdate);
+		}
+		
+		String numberRoomersString = JOptionPane.showInputDialog(
+	            null,
+	            "Digite el número de huespéds : ",
+	            "Agregar registro de cliente",
+	            JOptionPane.INFORMATION_MESSAGE );
+
+		int numberRoomers = Integer.parseInt(numberRoomersString);
+		
+		return new Customer(idCustomer, nameCustomer, birthdate, phoneNumberCustomer, emailCustomer, dniCustomer, numberRoomers);
+	}
+
+	@Override
+	protected boolean deleteRecord(int id) {
+		return this.listCustomers.removeIf(room -> room.getId() == id);
+	}
+	
+	
+}

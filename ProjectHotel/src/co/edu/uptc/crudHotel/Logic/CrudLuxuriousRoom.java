@@ -15,6 +15,11 @@ public class CrudLuxuriousRoom extends AbstractCrud<LuxuriosRoom> {
 		this.listLuxRooms = listLuxRooms;
 	}
 	
+	public List<LuxuriosRoom> getListLuxRooms() {
+		return listLuxRooms;
+	}
+
+
 	@Override
 	protected LuxuriosRoom createInstance() {
 

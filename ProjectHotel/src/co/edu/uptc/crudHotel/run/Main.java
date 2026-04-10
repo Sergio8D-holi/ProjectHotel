@@ -1,0 +1,88 @@
+package co.edu.uptc.crudHotel.run;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import java.util.Date;
+import javax.swing.JOptionPane;
+
+import co.edu.uptc.crudHotel.Logic.CrudCustomer;
+import co.edu.uptc.crudHotel.Logic.CrudEconomicRoom;
+import co.edu.uptc.crudHotel.Logic.CrudEmployee;
+import co.edu.uptc.crudHotel.Logic.CrudLuxuriousRoom;
+import co.edu.uptc.crudHotel.Logic.CrudReservation;
+import co.edu.uptc.crudHotel.enums.Category;
+import co.edu.uptc.crudHotel.models.Customer;
+import co.edu.uptc.crudHotel.models.EconomicRoom;
+import co.edu.uptc.crudHotel.models.Employee;
+import co.edu.uptc.crudHotel.models.Hotel;
+import co.edu.uptc.crudHotel.models.LuxuriosRoom;
+import co.edu.uptc.crudHotel.models.Reservation;
+import co.edu.uptc.crudHotel.models.Room;
+
+public class Main {
+
+	public static void main(String[] args) {
+		List<Customer> listCustomer = new ArrayList<Customer>();
+		List<Employee> listEmployee = new ArrayList<Employee>();
+		List<Reservation> listReservation= new ArrayList<Reservation>();
+		List<EconomicRoom> listEcoRoom = new ArrayList<EconomicRoom>();
+		List<LuxuriosRoom> listLuxRoom = new ArrayList<LuxuriosRoom>();
+		List<List<Room>> listRooms = new ArrayList<List<Room>>();
+		
+		listRooms.add(new ArrayList<>(listEcoRoom));
+		listRooms.add(new ArrayList<>(listLuxRoom));
+		
+		CrudCustomer customerRepository = new CrudCustomer("Customer", listCustomer);
+		CrudEmployee employeeRepository = new CrudEmployee("Employee", listEmployee);
+		CrudEconomicRoom ecoRoomRepository = new CrudEconomicRoom("Economic Room", listEcoRoom);
+		CrudLuxuriousRoom luxRoomRepository = new CrudLuxuriousRoom("Luxurious Room", listLuxRoom);
+		CrudReservation reservationRepository = new CrudReservation("Reservation", listReservation, customerRepository, ecoRoomRepository, luxRoomRepository);
+		
+		Hotel hotel = new Hotel("Hotel Sogamoso",listRooms , listCustomer, listEmployee, listReservation, "direccion", Category.FIVE_STAR ,"sogamoso" ,"3174495335" , "gfgh" );
+		
+		boolean flag = true;
+		while(flag) {
+			
+			int numberCrud = Integer.parseInt(JOptionPane.showInputDialog(
+		            null, 
+		            hotel.getName().toUpperCase()+ "\n"+ 
+		            "[1] Crud de clientes\n[2] Crud de empleados\n[3] Crud de habitaciones\n[4] Crud de reservaciones\n[5]Salir "
+		            + "", 
+		            "MENU PRINCIPAL", 
+		            JOptionPane.INFORMATION_MESSAGE
+		        ));
+			switch(numberCrud) {
+			case 1:
+				customerRepository.menu();
+				break;
+			case 2:
+				employeeRepository.menu();
+				break;
+			case 3:
+				int numTypeRoom = Integer.parseInt(JOptionPane.showInputDialog(null, "[1] Crud de habitacion economica\n[2] Crud de habitacion lujosa"));
+				switch (numTypeRoom) {
+				case 1: {
+					ecoRoomRepository.menu();
+					break;
+				}
+				case 2:
+					luxRoomRepository.menu();
+					break;
+				default:
+					throw new IllegalArgumentException("Unexpected value: " + numTypeRoom);
+				}
+				
+			case 4:
+				reservationRepository.menu();
+				break;
+			
+			case 5:
+				flag = false;
+				break;
+			}
+
+	}
+
+}
+}
